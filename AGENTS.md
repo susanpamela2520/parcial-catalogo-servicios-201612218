@@ -28,6 +28,7 @@ Aplicación web que sistematiza el catálogo de servicios de TI del archivo `dat
 - Celdas combinadas: el valor se toma de la celda principal del rango; no propagar fuera del rango.
 - Valores desconocidos se conservan como desconocidos (`NULL` + valor original + `estado_revision = 'REVISION'`).
 - **[Actualización 1]** El asistente puede no tener acceso al `.xlsx`. Las reglas del importador se prueban con el Excel **sintético** (`tests/fixtures/excel_sintetico.py`, mismas combinaciones y casos); P06–P08 validan el **original** de `data/`. Nunca reemplazar el original por el sintético ni subir el sintético a `data/`.
+- **[Actualización 2]** `ETIQUETA_MAPEADA` y `CODIGO_NORMALIZADO` son observaciones informativas: se registran pero no ponen el servicio en `REVISION`.
 - **[Actualización 1]** Re-importar no debe pisar ediciones hechas en la aplicación: cada registro guarda `origen_hash`; si los valores del Excel no cambiaron, el registro no se toca.
 
 ## 6. Comandos
@@ -39,6 +40,9 @@ Aplicación web que sistematiza el catálogo de servicios de TI del archivo `dat
 | Importar Excel | `docker compose exec app python -m scripts.import_excel` |
 | Pruebas | `docker compose exec app pytest` |
 | Verificación completa (harness) | `docker compose exec app sh scripts/check.sh` |
+| Persistencia P12 (desde el anfitrión) | `sh scripts/p12_persistencia.sh` |
+
+**[Actualización 2]** Fuera de Docker, los módulos viven en `src/`: usar `PYTHONPATH=src` (ya lo exporta `check.sh`). Las pruebas requieren `DATABASE_URL_TEST` apuntando a una base cuyo nombre termine en `_test`; `conftest.py` aborta en caso contrario.
 
 ## 7. Límites de operación para el asistente
 1. No leer, imprimir ni publicar `.env` ni secretos; usa `.env.example`.

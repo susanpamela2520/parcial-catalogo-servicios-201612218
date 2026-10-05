@@ -20,7 +20,7 @@
 | RC-02 | Clase, criticidad y tipo se eligen de catálogos (FK); un valor fuera de catálogo se conserva en `*_original`. | `guardar_n2`, importador |
 | RC-03 | `minimo <= maximo` cuando ambos existen; ausente = NULL, nunca 0. | API + `CHECK ck_umbral` |
 | RC-04 | `ACTIVO` del Excel: `S`, `N` o NULL (desconocido). La baja desde la app es `dado_de_baja`, independiente. | Esquema |
-| RC-05 | `estado_revision = REVISION` si falta ACTIVO, clase, criticidad o tipo, o si la importación dejó observaciones no informativas. | API + importador |
+| RC-05 | `estado_revision = REVISION` si falta ACTIVO, clase, criticidad o tipo, o si la importación dejó observaciones no informativas (`ETIQUETA_MAPEADA` y `CODIGO_NORMALIZADO` no cuentan). | API + importador |
 | RC-06 | Responsable opcional, debe pertenecer a la sección asignada; sin sección no hay responsable. | API + trigger `tg_valida_responsable` + `CHECK` |
 
 ## Seguridad

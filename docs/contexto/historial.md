@@ -18,3 +18,8 @@
 - **Cambio de decisión:** se agregó un generador de Excel sintético con la misma estructura y se separaron las pruebas de reglas (sintético) de P06–P08 (original).
 - **Decisión que se incorporó al contexto:** al diseñar la repetición de la importación se vio que un upsert simple pisaría ediciones hechas desde la aplicación (p. ej. completar ACTIVO de SE.12.2). Se fijó como regla guardar `origen_hash` por registro y actualizar solo si el Excel cambió; la prueba `test_regla_reimportacion_respeta_ediciones` lo verifica.
 - **Archivos tocados:** `AGENTS.md` §5, `analisis-excel.md` (sección "Hallazgo"), este archivo.
+
+### Actualización 2 — Observaciones informativas y entorno del harness (commit "Contexto v3")
+- **Hallazgo 1:** al registrar el mapeo de la etiqueta `back end → Back End`, el servicio quedaba en `REVISION` aunque la corrección ya estaba resuelta y documentada. Se decidió que `ETIQUETA_MAPEADA` y `CODIGO_NORMALIZADO` son **informativas** y no ponen el servicio en revisión.
+- **Hallazgo 2 (ciclo de harness 01):** `scripts/check.sh` falló fuera del contenedor con `No module named scripts.migrate` porque `PYTHONPATH` solo existía en la imagen Docker. Se corrigió exportándolo en el script y se dejó la regla en `AGENTS.md` §6.
+- **Archivos tocados:** `AGENTS.md` §5–§6, `reglas-negocio.md` (RC-05), este archivo, `docs/evidencias/harness-ciclo-01-*.log`.
