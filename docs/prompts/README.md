@@ -76,3 +76,9 @@
 - **Problema observado:** la primera ejecución del harness falló con `No module named scripts.migrate` (ver `docs/evidencias/harness-ciclo-01-fallo.log`): `PYTHONPATH=/app/src` solo existe dentro de la imagen.
 - **Prompt revisado:** "El harness debe funcionar dentro y fuera del contenedor: exporta `PYTHONPATH=src` si no está definido y documenta la regla en AGENTS.md."
 - **Resultado comprobado:** segunda ejecución `RESULTADO: TODO EN VERDE`, código 0, 32 pruebas en verde (`docs/evidencias/harness-ciclo-01-correccion.log`). Commit `477e334`.
+
+## I3 — Iteración de mejora: importador con el archivo original
+- **Prompt inicial (P4):** "…un servicio N2 sin código N1 se reporta (`N2_SIN_N1`) y se omite."
+- **Problema observado:** con el archivo original el control dio 12/46 pero solo se crearon 45 N2: `SE.12.3` no tiene COD.N1 en A101.
+- **Prompt revisado:** "Si un N2 no tiene COD.N1 ni pertenece a un rango combinado de A, asócialo al N1 indicado por el prefijo de su propio código (todo antes del último punto) solo si ese N1 existe; emite `N1_DERIVADO_DEL_CODIGO` y deja el servicio en REVISION. No copies valores de filas vecinas."
+- **Resultado comprobado:** 46 N2 creados con el original; `test_p06` (ahora exige 46 creados) y `test_regla_n1_derivado_del_codigo` en verde (`docs/evidencias/check-original-sesion-ia.log`).

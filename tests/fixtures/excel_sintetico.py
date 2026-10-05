@@ -64,14 +64,17 @@ def generar(ruta):
 
     # SE.12: filas 99–101, nombres de N1 en conflicto y atributos incompletos
     for r, k in ((99, 1), (100, 2), (101, 3)):
-        ws.cell(r, 1, "SE.12")
+        if r < 101:  # como en el archivo real, A101 está vacío
+            ws.cell(r, 1, "SE.12")
         ws.cell(r, 3, f"SE.12.{k}")
         ws.cell(r, 4, f"Servicio analítico {k}")
     ws.cell(99, 2, "Suministrar Analitica")
     ws.cell(100, 2, "Mantener Tableros de Control")
     ws.cell(99, 6, "RECURRENTE")  # solo un atributo; el resto vacío
 
-    # listas de opciones E112:H122
+    # encabezado de listas (fila 111) y listas de opciones E112:H122
+    for c in range(5, 9):
+        ws.cell(111, c, "OPCIONES")
     ws.cell(112, 5, "S"), ws.cell(113, 5, "N")
     for i, v in enumerate(["A DEMANDA", "RECURRENTE"]):
         ws.cell(112 + i, 6, v)

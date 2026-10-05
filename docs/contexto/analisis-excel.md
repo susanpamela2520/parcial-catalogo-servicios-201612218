@@ -39,3 +39,17 @@ El archivo `.xlsx` **no estuvo disponible** para el asistente durante la constru
 - El importador se escribió contra la estructura descrita aquí, de forma tolerante (detecta encabezados distintos, hoja con otro nombre, filas fuera de rango, valores fuera de catálogo) y reporta cada diferencia como observación en lugar de fallar en silencio.
 - Se creó `tests/fixtures/excel_sintetico.py`, que genera un Excel con la **misma forma** (combinaciones, SE.12, filas 99–101 incompletas, fila huérfana, etiqueta con distinta capitalización) para probar cada regla.
 - P06–P08 se ejecutan contra el archivo **original** en `data/`; si el resultado real difiere de 12/46, el control `CONTROL_NO_COINCIDE` lo indicará y la regla debe ajustarse documentando el cambio en `historial.md`.
+
+## Hallazgos con el archivo original (2026-10-04, tras recibirlo)
+SHA-256 del original: `de3b478a5faeeeaebce1aa7726e0e3321188a68e41bbb656e1d17b0c5b74dcf0` (también en `data/CatalogoServicios.sha256`).
+
+| Hallazgo | Filas | Tratamiento |
+|---|---|---|
+| 76 rangos combinados. A/B (N1) y C/D (N2) combinados por bloque; **E–H no están combinadas**: cada fila de continuación repite su propio ACTIVO/clase/criticidad/tipo. | 5–98 | R1/R2; los valores repetidos son iguales, por lo que no generan conflicto (R5 los compararía si difirieran). |
+| Filas dentro de la combinación de A/B pero **fuera** de la combinación de C, sin código N2, con valores en E–H. | 42, 67 | R3: `FILA_SIN_CODIGO`, se omiten y no se asignan al servicio de arriba. |
+| SE.12 con dos nombres en B (A99 y A100 sin combinar). B100 = "Mantener Tableros de Control", que es **idéntico al nombre N2 de SE.12.3** (D101). | 99–100 | R4: canónico "Suministrar Analitica"; B100 parece un nombre de nivel 2 desplazado. |
+| **SE.12.3 no tiene COD.N1** (A101 vacío, no combinado). | 101 | R9 (nueva): N1 derivado del prefijo del propio código → SE.12; observación `N1_DERIVADO_DEL_CODIGO`. |
+| SE.12.1–SE.12.3 sin ACTIVO, clase, criticidad, tipo ni métrica. | 99–101 | R7: NULL + `REVISION` + `ATRIBUTO_AUSENTE`. |
+| Formatos de código distintos: `SE.01.01` (dos dígitos) vs. `SE.12.1` (uno). | — | R6: se conservan como texto tal cual; **no** se rellena a `SE.12.01`. |
+| Fila 111 con "OPCIONES" en E–H (encabezado de las listas). | 111 | `ENCABEZADO_LISTA_OPCIONES`; las listas se leen de E112:H122. |
+| Resultado: 12 N1 / 46 N2, 46 filas de servicio, 49 de continuación, 2 omitidas. | — | Ver `docs/evidencias/importacion-original-sesion-ia.log`. |

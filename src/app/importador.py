@@ -16,6 +16,8 @@ R6  Los códigos se tratan como texto. Si la normalización (espacios/mayúscula
     valor, se guarda codigo_original y se emite CODIGO_NORMALIZADO.
 R7  Atributos vacíos o fuera de catálogo no se inventan: quedan NULL, se guarda el valor
     original y el servicio queda en estado_revision='REVISION'.
+R9  N2 sin COD.N1 (caso real: SE.12.3, fila 101): se asocia al N1 indicado por el prefijo de su
+    propio código (SE.12.3 -> SE.12) solo si ese N1 existe, y se emite N1_DERIVADO_DEL_CODIGO.
 R8  Idempotencia: la llave es el código. Se guarda un hash de los valores de origen; si el
     hash no cambió el registro no se toca (respeta ediciones hechas en la aplicación).
 """
@@ -201,7 +203,11 @@ class Importador:
                     n1_nombres.setdefault(c1, []).append((r, celdas[1].valor, celdas[1].origen))
 
         for r in range(FILA_FIN + 1, OPCIONES[0]):
-            if any(h.propia(r, c) for c in range(1, 13)):
+            propias = [h.propia(r, c) for c in range(1, 13)]
+            if any(propias) and not any(propias[:4] + propias[8:]) and all(clave(v or "") == "opciones" for v in propias[4:8] if v):
+                self.observar("ENCABEZADO_LISTA_OPCIONES", f"Fila {r}: encabezado de las listas de opciones; no es un servicio.",
+                              f"E{r}:H{r}")
+            elif any(propias):
                 self.observar("FILA_FUERA_DE_RANGO", f"La fila {r} tiene contenido fuera del rango de datos (5–101); no se importa.",
                               f"A{r}:L{r}")
         return registros, n1_nombres, n1_filas, n1_original
@@ -330,9 +336,17 @@ class Importador:
                 self.observar("CONFLICTO_N1_EN_SERVICIO", f"{cod} abarca filas con distintos códigos N1 {sorted(distintos_n1)}; se usa el primero.",
                               rango, cod)
             if cod_n1_raw is None:
-                self.observar("N2_SIN_N1", f"{cod} no tiene código de nivel 1; se omite.", rango, cod)
-                self.stats["filas_omitidas"] += len(reg.filas)
-                continue
+                # R9: sin COD.N1 en la fila ni en un rango combinado. Se deriva del prefijo jerárquico
+                # del propio código N2 (SE.12.3 -> SE.12) solo si ese N1 existe; no se copia de filas vecinas.
+                prefijo = cod.rsplit(".", 1)[0] if "." in cod else None
+                if prefijo not in n1s:
+                    self.observar("N2_SIN_N1", f"{cod} no tiene código de nivel 1 y no se puede derivar; se omite.", rango, cod)
+                    self.stats["filas_omitidas"] += len(reg.filas)
+                    continue
+                self.observar("N1_DERIVADO_DEL_CODIGO",
+                              f"{cod} no tiene COD.N1 en el Excel; se asocia a {prefijo} por el prefijo de su código.",
+                              rango, cod, regla="R9 prefijo del código N2", n1=prefijo)
+                cod_n1_raw = prefijo
             n1 = n1s[normalizar_codigo(cod_n1_raw)]
             if reg.codigo_original.strip() != cod:
                 self.observar("CODIGO_NORMALIZADO", f"Código N2 '{reg.codigo_original}' normalizado a '{cod}'.", rango, cod,

@@ -41,6 +41,7 @@ def test_p06_importar_archivo_original(db):
     assert db.scalar(select(func.count()).select_from(ServicioN1)) == 12
     assert db.scalar(select(func.count()).select_from(ServicioN2)) == 46
     assert r["observaciones"] > 0 and _obs(db, r["importacion_id"])
+    assert r["n2"]["creados"] == 46 and r["n1"]["creados"] == 12
     assert hashlib.sha256(ruta.read_bytes()).hexdigest() == sha  # el original no se modificó
     sin_origen = db.scalar(select(func.count()).select_from(ServicioN2).where(ServicioN2.origen_rango.is_(None)))
     assert sin_origen == 0  # trazabilidad hoja/rango
@@ -141,3 +142,11 @@ def test_importacion_por_api(admin, consulta, monkeypatch, sintetico):
     assert r.status_code == 200 and r.json()["control"]["ok"]
     imp = admin.get("/api/importaciones").json()[0]
     assert consulta.get(f"/api/importaciones/{imp['id']}/observaciones").status_code == 200
+
+
+def test_regla_n1_derivado_del_codigo(db, sintetico):
+    r = importar(db, sintetico)
+    s = db.scalar(select(ServicioN2).where(ServicioN2.codigo == "SE.12.3"))
+    assert s is not None and s.n1.codigo == "SE.12" and s.estado_revision == "REVISION"
+    assert _obs(db, r["importacion_id"], "N1_DERIVADO_DEL_CODIGO", "SE.12.3")
+    assert _obs(db, r["importacion_id"], "ENCABEZADO_LISTA_OPCIONES")

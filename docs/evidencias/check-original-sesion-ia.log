@@ -1,0 +1,18 @@
+# check.sh con el Excel ORIGINAL — 2026-10-04T21:06:25-06:00 — sesión de IA (sin Docker: Docker Hub no accesible desde la sesión)
+$ sh scripts/check.sh
+== 1/5 Excel original intacto ==
+[OK] SHA-256 coincide
+== 2/5 Calidad de código (ruff) ==
+All checks passed!
+[OK] sin observaciones
+== 3/5 Migraciones ==
+[migrate] esquema al día
+[OK] esquema al día
+== 4/5 Pruebas automatizadas P01-P11 (base catalogo_test) ==
+=============================== warnings summary ===============================
+33 passed, 1 warning in 18.65s
+[OK] pruebas en verde
+== 5/5 Variables sensibles fuera del repositorio ==
+[OK] .env no está incluido
+RESULTADO: TODO EN VERDE
+exit=0

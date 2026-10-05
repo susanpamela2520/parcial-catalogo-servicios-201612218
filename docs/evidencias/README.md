@@ -5,6 +5,8 @@
 | `harness-ciclo-01-fallo.log` | Primera ejecución de `scripts/check.sh`: falla (módulo no encontrado por `PYTHONPATH`; falta el Excel). |
 | `harness-ciclo-01-correccion.log` | Ejecución tras la corrección: `RESULTADO: TODO EN VERDE`, código 0. |
 | `pytest-sesion-ia.log` | `pytest -v` completo (32 pruebas) en la sesión de IA. |
+| `importacion-original-sesion-ia.log` | Importación del Excel **original** dos veces: 12/46 y luego 0 creados. |
+| `check-original-sesion-ia.log` | Harness en verde con el Excel original (33 pruebas, incluidas P06–P08). |
 | `resultados-evaluacion.md` | Plantilla para anotar la corrida con el Excel **original** y Docker (P06–P08 y P12). |
 
 ## Ciclo completo de harness engineering (ciclo 01)
@@ -15,4 +17,4 @@
 5. **Corrección:** `export PYTHONPATH="${PYTHONPATH:-src}"` en `check.sh` y regla agregada a `AGENTS.md` (contexto v3).
 6. **Nueva ejecución satisfactoria:** `harness-ciclo-01-correccion.log` → 5/5 controles OK, 32 pruebas en verde, código de salida 0.
 
-> Nota de transparencia: el Excel original no estuvo disponible en la sesión de IA. La corrida verde usó el Excel sintético en una copia temporal del repositorio. La verificación con el archivo original se registra en `resultados-evaluacion.md`.
+> Nota de transparencia: el Excel original no estuvo disponible en la sesión de IA. La corrida verde usó el Excel sintético en una copia temporal del repositorio. Después se recibió el original: ver `importacion-original-sesion-ia.log` y `check-original-sesion-ia.log`. Lo que falta registrar es la corrida dentro de Docker (P12) en `resultados-evaluacion.md`.

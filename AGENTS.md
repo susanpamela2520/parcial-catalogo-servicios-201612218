@@ -29,6 +29,7 @@ Aplicación web que sistematiza el catálogo de servicios de TI del archivo `dat
 - Valores desconocidos se conservan como desconocidos (`NULL` + valor original + `estado_revision = 'REVISION'`).
 - **[Actualización 1]** El asistente puede no tener acceso al `.xlsx`. Las reglas del importador se prueban con el Excel **sintético** (`tests/fixtures/excel_sintetico.py`, mismas combinaciones y casos); P06–P08 validan el **original** de `data/`. Nunca reemplazar el original por el sintético ni subir el sintético a `data/`.
 - **[Actualización 2]** `ETIQUETA_MAPEADA` y `CODIGO_NORMALIZADO` son observaciones informativas: se registran pero no ponen el servicio en `REVISION`.
+- **[Actualización 3]** Archivo original analizado (ver `analisis-excel.md`): SE.12.3 no trae COD.N1 → regla R9 lo asocia por el prefijo de su código; filas 42 y 67 sin código se omiten; los códigos `SE.xx.yy` y `SE.12.x` se conservan tal cual.
 - **[Actualización 1]** Re-importar no debe pisar ediciones hechas en la aplicación: cada registro guarda `origen_hash`; si los valores del Excel no cambiaron, el registro no se toca.
 
 ## 6. Comandos
