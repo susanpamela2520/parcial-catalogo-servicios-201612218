@@ -4,7 +4,7 @@ Parcial — Software Avanzado, Facultad de Ingeniería, USAC. Aplicación web qu
 
 | | |
 |---|---|
-| **Integrante** | Susan — carné: `__________` |
+| **Integrante** | Susan Pamela Herrera Monzon — carné: `201612218` |
 | **Rama de entrega** | `main` · etiqueta `parcial-v2.0` |
 | **Tecnologías** | Python 3.12, FastAPI, SQLAlchemy 2, PostgreSQL 16, HTML/JS, Docker Compose |
 | **Documentación técnica** | [`docs/RESOLUCION.md`](docs/RESOLUCION.md) · contexto para IA: [`AGENTS.md`](AGENTS.md) |
