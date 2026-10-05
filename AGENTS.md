@@ -27,6 +27,8 @@ Aplicación web que sistematiza el catálogo de servicios de TI del archivo `dat
 - Controles: **12** códigos N1 y **46** códigos N2.
 - Celdas combinadas: el valor se toma de la celda principal del rango; no propagar fuera del rango.
 - Valores desconocidos se conservan como desconocidos (`NULL` + valor original + `estado_revision = 'REVISION'`).
+- **[Actualización 1]** El asistente puede no tener acceso al `.xlsx`. Las reglas del importador se prueban con el Excel **sintético** (`tests/fixtures/excel_sintetico.py`, mismas combinaciones y casos); P06–P08 validan el **original** de `data/`. Nunca reemplazar el original por el sintético ni subir el sintético a `data/`.
+- **[Actualización 1]** Re-importar no debe pisar ediciones hechas en la aplicación: cada registro guarda `origen_hash`; si los valores del Excel no cambiaron, el registro no se toca.
 
 ## 6. Comandos
 | Acción | Comando |
