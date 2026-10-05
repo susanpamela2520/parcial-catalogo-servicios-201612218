@@ -1,0 +1,18 @@
+# Ejecución 1 — 2026-10-04T20:46:15-06:00 — commit 96e52f8 + cambios sin commit (scripts/check.sh nuevo)
+$ sh scripts/check.sh
+== 1/5 Excel original intacto ==
+[FALLO] falta data/CatalogoServicios.xlsx
+== 2/5 Calidad de código (ruff) ==
+[OK] sin observaciones
+== 3/5 Migraciones ==
+/usr/bin/python: No module named scripts.migrate
+[FALLO] migraciones
+== 4/5 Pruebas automatizadas P01-P11 (base catalogo_test) ==
+=================================== FAILURES ===================================
+=============================== warnings summary ===============================
+=========================== short test summary info ============================
+[FALLO] hay pruebas fallidas
+== 5/5 Variables sensibles fuera del repositorio ==
+[OK] .env no está incluido
+RESULTADO: 3 control(es) fallido(s)
+exit=1

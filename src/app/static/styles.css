@@ -1,0 +1,51 @@
+:root {
+  --fondo: #f4f5f7; --superficie: #fff; --texto: #1d2330; --suave: #5d6677; --borde: #d9dde5;
+  --primario: #1f5fa8; --primario-hover: #174a85; --peligro: #b3261e; --ok: #1e7b46; --aviso: #8a5a00;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--texto);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fondo: #14171d; --superficie: #1d2129; --texto: #e6e8ec; --suave: #9aa3b2; --borde: #333a46;
+    --primario: #5b9be6; --primario-hover: #7bb0ee; --peligro: #ef6b62; --ok: #4fbf80; --aviso: #e0b04f; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); }
+button { background: var(--primario); color: #fff; border: 0; border-radius: 6px; padding: .45rem .9rem; cursor: pointer; font: inherit; }
+button:hover { background: var(--primario-hover); }
+button.secundario { background: transparent; color: var(--primario); border: 1px solid var(--borde); }
+button.peligro { background: var(--peligro); }
+button.mini { padding: .2rem .5rem; font-size: .85rem; }
+input, select, textarea { font: inherit; padding: .4rem .5rem; border: 1px solid var(--borde); border-radius: 6px; background: var(--superficie); color: var(--texto); width: 100%; }
+label { display: grid; gap: .25rem; font-size: .9rem; color: var(--suave); }
+.login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+.tarjeta { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 1.5rem; display: grid; gap: .9rem; width: min(380px, 100%); }
+.tarjeta h1 { font-size: 1.2rem; margin: 0; }
+.error { color: var(--peligro); min-height: 1.2em; margin: 0; }
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding: .6rem 16px; background: var(--superficie); border-bottom: 1px solid var(--borde); }
+.barra nav { display: flex; flex-wrap: wrap; gap: .25rem; flex: 1; }
+.barra nav button { background: transparent; color: var(--texto); }
+.barra nav button.activo { background: var(--primario); color: #fff; }
+#quien { color: var(--suave); font-size: .9rem; }
+main { padding: 16px; max-width: 1200px; margin: 0 auto; }
+.panel { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 1rem; margin-bottom: 1rem; overflow-x: auto; }
+.filtros { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .6rem; align-items: end; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--borde); vertical-align: top; }
+th { color: var(--suave); font-weight: 600; }
+tr.clic { cursor: pointer; } tr.clic:hover { background: color-mix(in srgb, var(--primario) 8%, transparent); }
+.etq { display: inline-block; padding: .05rem .45rem; border-radius: 999px; font-size: .78rem; border: 1px solid currentColor; }
+.etq.ok { color: var(--ok); } .etq.rev { color: var(--aviso); } .etq.no { color: var(--peligro); } .etq.gris { color: var(--suave); }
+.acciones { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin: .5rem 0; }
+.paginacion { display: flex; gap: .5rem; align-items: center; justify-content: flex-end; margin-top: .6rem; color: var(--suave); }
+dialog { border: 1px solid var(--borde); border-radius: 10px; background: var(--superficie); color: var(--texto); width: min(720px, calc(100% - 32px)); max-height: 90vh; }
+dialog form { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+dialog form .ancho { grid-column: 1 / -1; }
+dl.ficha { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: 0; }
+dl.ficha dt { color: var(--suave); }
+dl.ficha dd { margin: 0; }
+#aviso { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--texto); color: var(--fondo); padding: .6rem 1rem; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
+#aviso.ver { opacity: .95; }
+.pestanas { display: flex; gap: .25rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.pestanas button { background: transparent; color: var(--texto); border: 1px solid var(--borde); }
+.pestanas button.activo { background: var(--primario); color: #fff; }
+pre { white-space: pre-wrap; font-size: .82rem; }
+.solo-admin[hidden] { display: none !important; }

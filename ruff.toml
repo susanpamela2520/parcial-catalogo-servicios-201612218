@@ -1,0 +1,6 @@
+line-length = 150
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "B"]
+ignore = ["E702", "B008", "B904", "B905"]  # B008: Depends() en firmas FastAPI es el patrón idiomático

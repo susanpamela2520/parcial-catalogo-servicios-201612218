@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo de Servicios de TI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <section id="vista-login" class="login" hidden>
+    <form id="form-login" class="tarjeta">
+      <h1>Catálogo de Servicios de TI</h1>
+      <label>Usuario o correo <input name="usuario" autocomplete="username" required></label>
+      <label>Contraseña <input name="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Iniciar sesión</button>
+      <p class="error" id="login-error"></p>
+    </form>
+  </section>
+
+  <div id="vista-app" hidden>
+    <header class="barra">
+      <strong>Catálogo de Servicios de TI</strong>
+      <nav id="menu">
+        <button data-vista="servicios" class="activo">Servicios</button>
+        <button data-vista="n1">Nivel 1</button>
+        <button data-vista="org">Organización</button>
+        <button data-vista="usuarios">Usuarios</button>
+        <button data-vista="catalogos">Catálogos</button>
+        <button data-vista="importacion">Importación</button>
+      </nav>
+      <span id="quien"></span>
+      <button id="btn-salir" class="secundario">Cerrar sesión</button>
+    </header>
+    <main id="contenido"></main>
+  </div>
+
+  <dialog id="dialogo"><div id="dialogo-cuerpo"></div></dialog>
+  <div id="aviso" role="status"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

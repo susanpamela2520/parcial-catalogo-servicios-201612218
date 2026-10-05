@@ -1,0 +1,20 @@
+# Ejecución 2 — 2026-10-04T20:46:56-06:00 — tras la corrección de PYTHONPATH
+# NOTA: el Excel ORIGINAL no estaba disponible en la sesión de IA; esta corrida usa el Excel SINTÉTICO
+# (tests/fixtures/excel_sintetico.py) copiado como data/CatalogoServicios.xlsx en una copia temporal del repo.
+$ sh scripts/check.sh
+== 1/5 Excel original intacto ==
+[OK] SHA-256 coincide
+== 2/5 Calidad de código (ruff) ==
+All checks passed!
+[OK] sin observaciones
+== 3/5 Migraciones ==
+[migrate] esquema al día
+[OK] esquema al día
+== 4/5 Pruebas automatizadas P01-P11 (base catalogo_test) ==
+=============================== warnings summary ===============================
+32 passed, 1 warning in 17.18s
+[OK] pruebas en verde
+== 5/5 Variables sensibles fuera del repositorio ==
+[OK] .env no está incluido
+RESULTADO: TODO EN VERDE
+exit=0
